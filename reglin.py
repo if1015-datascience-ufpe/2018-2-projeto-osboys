@@ -24,3 +24,9 @@ tdf = pd.concat([tdf, adf['BAIRRO']], axis = 1)
 tdf.columns = ['DEMORA', 'BAIRRO']
 tdf = tdf.groupby('BAIRRO')
 tdf = tdf.sum() / tdf.count()
+
+bdf['demora'] = pd.to_timedelta(0)
+
+for bairro in bdf['nome_bairro']:
+    if bairro.upper() in tdf.index:
+        bdf.loc[bdf['nome_bairro'] == bairro, 'demora'] = tdf.loc[bairro.upper()]
